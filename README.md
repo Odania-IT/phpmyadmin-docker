@@ -12,7 +12,7 @@ mysql:
   ports:
     - "127.0.0.1:3306:3306"
 phpmyadmin:
-  image: docker pull mikepetersen/phpmyadmin-docker:latest
+  image: odaniait/phpmyadmin-docker:latest
   ports:
     - "127.0.0.1:8081:80"
   links:
