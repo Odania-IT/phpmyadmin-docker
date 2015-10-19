@@ -79,6 +79,10 @@ if (!empty($dbname)) {
 	$cfg['Servers'][$i]['password'] = $dbpass;
 	$cfg['Servers'][$i]['AllowRoot'] = true;
 
+  if (getenv('ALLOW_NO_PASSWORD')) {
+    $cfg['Servers'][$i]['AllowNoPassword'] = true;
+  }
+
 	$cfg['Servers'][$i]['AllowDeny']['rules'] = array("allow root@".getenv('MYSQL_PORT_3306_TCP_ADDR')." FROM 172.17.0.1");
 
 	/* Advance to next server for rest of config */
