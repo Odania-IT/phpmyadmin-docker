@@ -1,9 +1,6 @@
 FROM odaniait/docker-base:latest
 MAINTAINER Mike Petersen <mike@odania-it.de>
 
-# Set correct environment variables.
-ENV HOME /root
-
 RUN apt-get update
 RUN apt-get install -y apache2 phpmyadmin supervisor
 
