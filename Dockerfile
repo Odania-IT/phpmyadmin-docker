@@ -1,18 +1,17 @@
-FROM odaniait/docker-base:latest
+FROM alpine:latest
 MAINTAINER Mike Petersen <mike@odania-it.de>
 
-RUN apt-get update
-RUN apt-get install -y apache2 phpmyadmin supervisor
+RUN apk add --no-cache apache2 phpmyadmin php5-apache2
 
-COPY 000-default.conf /etc/apache2/sites-enabled/000-default.conf
+RUN mkdir -p /run/apache2
 COPY phpmyadmin-config.inc.php /etc/phpmyadmin/config.inc.php
 COPY config-db.php /etc/phpmyadmin/config-db.php
-
-# setup apache service
-RUN mkdir -p /etc/service/apache
-COPY runit/apache.sh /etc/service/apache/run
+COPY run.sh /run.sh
+RUN sed -i 's#/var/www/localhost/htdocs#/usr/share/webapps/phpmyadmin#g' /etc/apache2/httpd.conf
+RUN sed -i 's#ErrorLog logs/error.log#ErrorLog /dev/stderr#' /etc/apache2/httpd.conf
+RUN sed -i 's#CustomLog logs/access.log combined#CustomLog /dev/stdout combined#' /etc/apache2/httpd.conf
+RUN chown -R apache:apache /etc/phpmyadmin
 
 EXPOSE 80
 
-# Clean up APT when done.
-RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+CMD ["/bin/sh", "/run.sh"]
