@@ -1,7 +1,7 @@
 FROM alpine:latest
 MAINTAINER Mike Petersen <mike@odania-it.de>
 
-RUN apk add --no-cache apache2 phpmyadmin php5-apache2
+RUN apk add --no-cache apache2 phpmyadmin php7-apache2
 
 RUN mkdir -p /run/apache2
 COPY phpmyadmin-config.inc.php /etc/phpmyadmin/config.inc.php
